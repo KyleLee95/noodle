@@ -14,7 +14,7 @@ if (!PUBLISHABLE_KEY) {
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
         <App />
       </ThemeProvider>
     </ClerkProvider>

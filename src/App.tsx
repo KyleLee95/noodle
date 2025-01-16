@@ -4,52 +4,47 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { Button } from "./components/ui/button";
-import {
-  ReactFlow,
-  Controls,
-  Background,
-  MiniMap,
-  ReactFlowProvider,
-  addEdge,
-  applyNodeChanges,
-} from "@xyflow/react";
+import { ReactFlow, Controls, Background, MiniMap } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import GeometryRenderer from "./components/three/GeometryRenderer";
-import useStore from "@/store/store";
 import { ModeToggle } from "./components/mode-toggle";
 
-function Flow() {
-  const nodes = useStore((state) => state.nodes);
-  const setNodes = useStore((state) => state.setNodes);
+import { useShallow } from "zustand/react/shallow";
 
-  const onNodesChange = (changes) => {
-    setNodes((nds) => applyNodeChanges(changes, nds));
-  };
+import "@xyflow/react/dist/style.css";
+
+import useStore from "@/store/store";
+
+const selector = (state) => ({
+  nodes: state.nodes,
+  edges: state.edges,
+  onNodesChange: state.onNodesChange,
+  onEdgesChange: state.onEdgesChange,
+  onConnect: state.onConnect,
+});
+
+function Flow() {
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useStore(
+    useShallow(selector),
+  );
 
   return (
-    <div className="h-full w-full">
-      <ReactFlowProvider>
-        <ReactFlow
-          nodes={nodes}
-          // edges={edges}
-          // onNodesChange={onNodesChange}
-          // onEdgesChange={onEdgesChange}
-          // onConnect={onConnect}
-          colorMode="light"
-          fitView
-        >
-          <Background />
-          <MiniMap />
-          <Controls />
-        </ReactFlow>
-      </ReactFlowProvider>
-    </div>
+    <ReactFlow
+      nodes={nodes}
+      edges={edges}
+      onNodesChange={onNodesChange}
+      onEdgesChange={onEdgesChange}
+      onConnect={onConnect}
+      fitView
+    >
+      <MiniMap />
+      <Background />
+      <Controls />
+    </ReactFlow>
   );
 }
 
 const App = () => {
-  const addNode = useStore((state) => state.addNode);
-
   return (
     <ResizablePanelGroup direction="horizontal">
       <ResizablePanel>
@@ -57,18 +52,9 @@ const App = () => {
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={25}>
-        <Button
-          onClick={() => {
-            addNode({
-              id: `${Date.now()}`, // Unique ID
-              type: "boxGeometryNode",
-              position: { x: 150, y: 150 }, // Position in React Flow
-              data: { width: 2, height: 2 }, // Box geometry data
-            });
-          }}
-        >
-          Add Box
-        </Button>
+        <Button onClick={() => {}}>Add Box</Button>
+
+        <Button onClick={() => {}}>Add Text Input</Button>
         <ModeToggle />
         <GeometryRenderer />
       </ResizablePanel>

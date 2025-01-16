@@ -1,4 +1,5 @@
 import { Position, Handle } from "@xyflow/react";
+import { memo } from "react";
 
 const BoxGeometryNode = ({ data }) => {
   return (
@@ -17,4 +18,4 @@ const BoxGeometryNode = ({ data }) => {
   );
 };
 
-export default BoxGeometryNode;
+export default memo(BoxGeometryNode);

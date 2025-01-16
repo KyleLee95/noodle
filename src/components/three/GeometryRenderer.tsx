@@ -1,14 +1,18 @@
 import { Canvas } from "@react-three/fiber";
 import useStore from "@/store/store";
+
+const BOX_GEOMETRY_NODE = "boxGeometryNode";
+const SPHERE_GEOMETRY_NODE = "sphereGeometryNode";
+
 const GeometryRenderer = () => {
   const nodes = useStore((state) => state.nodes);
   if (!nodes) {
     return null;
   }
 
-  console.log("nodes in renderer?", nodes);
   return (
     <Canvas>
+      <ambientLight />
       {nodes.map((node) => {
         if (node.type === "boxGeometryNode") {
           const { x, y } = node.position;

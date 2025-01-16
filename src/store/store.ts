@@ -1,20 +1,44 @@
 import { create } from "zustand";
+import {
+  addNodes,
+  addEdge,
+  applyNodeChanges,
+  applyEdgeChanges,
+} from "@xyflow/react";
 
-const useStore = create((set) => ({
-  nodes: [],
-  setNodes: (nodes) => set({ nodes }),
-  addNode: (node) =>
-    set((state) => {
-      console.log("node?", node);
-      console.log("state", state);
-      return { ...state, nodes: [...state.nodes, node] };
-    }),
-  updateNode: (id, updatedData) =>
-    set((state) => ({
-      nodes: state.nodes.map((node) =>
-        node.id === id ? { ...node, ...updatedData } : node,
-      ),
-    })),
+import { initialNodes } from "./nodes";
+import { initialEdges } from "./edges";
+import { type AppState } from "@/types/appState";
+
+const useStore = create<AppState>((set, get) => ({
+  nodes: initialNodes,
+  edges: initialEdges,
+  addNode: (state) => {
+    set({
+      nodes: [...state.nodes],
+    });
+  },
+  onNodesChange: (changes) => {
+    set({
+      nodes: applyNodeChanges(changes, get().nodes),
+    });
+  },
+  onEdgesChange: (changes) => {
+    set({
+      edges: applyEdgeChanges(changes, get().edges),
+    });
+  },
+  onConnect: (connection) => {
+    set({
+      edges: addEdge(connection, get().edges),
+    });
+  },
+  setNodes: (nodes) => {
+    set({ nodes });
+  },
+  setEdges: (edges) => {
+    set({ edges });
+  },
 }));
 
 export default useStore;

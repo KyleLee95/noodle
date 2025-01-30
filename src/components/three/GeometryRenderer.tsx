@@ -1,9 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import useStore from "@/store/store";
 
-const BOX_GEOMETRY_NODE = "boxGeometryNode";
-const SPHERE_GEOMETRY_NODE = "sphereGeometryNode";
-
 const GeometryRenderer = () => {
   const nodes = useStore((state) => state.nodes);
   if (!nodes) {

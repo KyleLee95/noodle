@@ -1,22 +1,33 @@
-import { create } from "zustand";
+import { createWithEqualityFn } from "zustand/traditional";
 import {
-  addNodes,
   addEdge,
   applyNodeChanges,
   applyEdgeChanges,
+  type Edge,
+  type Node,
+  type OnNodesChange,
+  type OnEdgesChange,
+  XYPosition,
 } from "@xyflow/react";
-
+import { nanoid } from "nanoid";
 import { initialNodes } from "./nodes";
 import { initialEdges } from "./edges";
 import { type AppState } from "@/types/appState";
 
-const useStore = create<AppState>((set, get) => ({
+export type RFState = {
+  nodes: Node[];
+  edges: Edge[];
+  onNodesChange: OnNodesChange;
+  onEdgesChange: OnEdgesChange;
+  createNode: void;
+};
+
+const useStore = createWithEqualityFn<AppState>((set, get) => ({
   nodes: initialNodes,
   edges: initialEdges,
-  addNode: (state) => {
-    set({
-      nodes: [...state.nodes],
-    });
+
+  createNode: (parentNode: Node, position: XYPosition, nodeData: any) => {
+    console.log("createNode");
   },
   onNodesChange: (changes) => {
     set({

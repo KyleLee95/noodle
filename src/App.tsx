@@ -1,64 +1,39 @@
-import {
-  ResizablePanel,
-  ResizableHandle,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable";
-import { Button } from "./components/ui/button";
-import { ReactFlow, Controls, Background, MiniMap } from "@xyflow/react";
-import "@xyflow/react/dist/style.css";
-import GeometryRenderer from "./components/three/GeometryRenderer";
-import { ModeToggle } from "./components/mode-toggle";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
+import HomeLayout from "./layouts/home-layout";
+import HomePage from "./pages/home";
+import Editor from "./pages/editor";
+import { AppSidebar } from "./components/app-sidebar";
+import { SidebarProvider, SidebarTrigger } from "./components/ui/sidebar";
 
-import { useShallow } from "zustand/react/shallow";
-
-import "@xyflow/react/dist/style.css";
-
-import useStore from "@/store/store";
-
-const selector = (state) => ({
-  nodes: state.nodes,
-  edges: state.edges,
-  onNodesChange: state.onNodesChange,
-  onEdgesChange: state.onEdgesChange,
-  onConnect: state.onConnect,
-});
-
-function Flow() {
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useStore(
-    useShallow(selector),
-  );
-
+function AppLayout() {
   return (
-    <ReactFlow
-      nodes={nodes}
-      edges={edges}
-      onNodesChange={onNodesChange}
-      onEdgesChange={onEdgesChange}
-      onConnect={onConnect}
-      fitView
-    >
-      <MiniMap />
-      <Background />
-      <Controls />
-    </ReactFlow>
+    <SidebarProvider>
+      <AppSidebar />
+      <main className="h-full w-full">
+        <SidebarTrigger />
+        <Outlet />
+      </main>
+    </SidebarProvider>
   );
 }
 
 const App = () => {
   return (
-    <ResizablePanelGroup direction="horizontal">
-      <ResizablePanel>
-        <Flow />
-      </ResizablePanel>
-      <ResizableHandle withHandle />
-      <ResizablePanel defaultSize={25}>
-        <Button onClick={() => {}}>Add Box</Button>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          element={<AppLayout />}
+        >
+          <Route path="/">
+            <Route element={<HomeLayout />}>
+              <Route index element={<HomePage />} />
+            </Route>
+          </Route>
+        </Route>
 
-        <Button onClick={() => {}}>Add Text Input</Button>
-        <ModeToggle />
-        <GeometryRenderer />
-      </ResizablePanel>
-    </ResizablePanelGroup>
+        <Route path="projects/:projectId" element={<Editor />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 

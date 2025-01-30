@@ -1,10 +1,11 @@
 import {
-  SignedOut,
   SignedIn,
+  SignedOut,
   SignInButton,
   UserButton,
 } from "@clerk/clerk-react";
 import { Button } from "./ui/button";
+import { Link } from "react-router";
 import { ModeToggle } from "./mode-toggle";
 const LINKS = [
   {
@@ -22,23 +23,12 @@ const LINKS = [
 ];
 const Header = () => {
   return (
-    <header className="flex justify-around">
+    <header className="flex flex-row justify-around bg-white text-black">
       {LINKS.map((link) => (
-        <a key={link.url} href={link.url}>
+        <Link key={link.url} to={link.url}>
           {link.text}
-        </a>
+        </Link>
       ))}
-      <div>
-        <SignedOut>
-          <SignInButton>
-            <Button variant="ghost">Sign In</Button>
-          </SignInButton>
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
-        <ModeToggle />
-      </div>
     </header>
   );
 };

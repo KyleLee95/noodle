@@ -1,16 +1,18 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
-import HomeLayout from "./layouts/home-layout";
 import HomePage from "./pages/home";
 import Editor from "./pages/editor";
-import { AppSidebar } from "./components/ui/app-sidebar";
+import { AppSidebar } from "./components/ui/app-sidebar/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "./components/ui/sidebar";
+import EditorMenuBar from "./components/ui/editor-menubar";
 
 function AppLayout() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="h-full w-full">
-        <SidebarTrigger />
+      <main className="h-screen w-screen">
+        <span>
+          <EditorMenuBar />
+        </span>
         <Outlet />
       </main>
     </SidebarProvider>
@@ -24,14 +26,14 @@ const App = () => {
         <Route
           element={<AppLayout />}
         >
-          <Route path="/">
-            <Route element={<HomeLayout />}>
-              <Route index element={<HomePage />} />
-            </Route>
+          <Route path="/" element={<HomePage />} />
+          <Route path="projects/">
+            <Route path=":projectId" element={<Editor />} />
+          </Route>
+
+          <Route path="settings/" element={<>Settings</>}>
           </Route>
         </Route>
-
-        <Route path="projects/:projectId" element={<Editor />} />
       </Routes>
     </BrowserRouter>
   );

@@ -13,10 +13,12 @@ import {
   MenubarSubTrigger,
   MenubarTrigger,
 } from "@/components/ui/menubar";
+import { SidebarTrigger } from "./sidebar";
 export default function EditorMenuBar() {
   return (
     <Menubar>
       <MenubarMenu>
+        <SidebarTrigger />
         <MenubarTrigger>File</MenubarTrigger>
         <MenubarContent>
           <MenubarItem>

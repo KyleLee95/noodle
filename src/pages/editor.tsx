@@ -1,6 +1,5 @@
 import FlowCanvas from "@/components/flow/flow-canvas";
 import Viewport from "@/components/three/viewport";
-import EditorMenuBar from "@/components/ui/editor-menubar";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -10,7 +9,6 @@ import {
 export default function Editor() {
   return (
     <>
-      <EditorMenuBar />
       <ResizablePanelGroup
         direction="horizontal"
         className="rounded-lg border md:min-w-[450px]"

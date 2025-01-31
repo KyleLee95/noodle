@@ -2,7 +2,7 @@ import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import HomeLayout from "./layouts/home-layout";
 import HomePage from "./pages/home";
 import Editor from "./pages/editor";
-import { AppSidebar } from "./components/app-sidebar";
+import { AppSidebar } from "./components/ui/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "./components/ui/sidebar";
 
 function AppLayout() {

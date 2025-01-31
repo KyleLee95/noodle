@@ -1,17 +1,15 @@
 import { createWithEqualityFn } from "zustand/traditional";
 import {
   addEdge,
-  applyNodeChanges,
   applyEdgeChanges,
+  applyNodeChanges,
   type Edge,
   type Node,
-  type OnNodesChange,
   type OnEdgesChange,
+  type OnNodesChange,
   XYPosition,
 } from "@xyflow/react";
 import { nanoid } from "nanoid";
-import { initialNodes } from "./nodes";
-import { initialEdges } from "./edges";
 import { type AppState } from "@/types/appState";
 
 export type RFState = {
@@ -20,11 +18,17 @@ export type RFState = {
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   createNode: void;
+  addEdge: void;
 };
 
 const useStore = createWithEqualityFn<AppState>((set, get) => ({
-  nodes: initialNodes,
-  edges: initialEdges,
+  nodes: [
+    { id: "a", data: { label: "oscillator" }, position: { x: 0, y: 0 } },
+    { id: "b", data: { label: "gain" }, position: { x: 50, y: 50 } },
+    { id: "c", data: { label: "output" }, position: { x: -50, y: 100 } },
+  ],
+
+  edges: [],
 
   createNode: (parentNode: Node, position: XYPosition, nodeData: any) => {
     console.log("createNode");
@@ -39,6 +43,14 @@ const useStore = createWithEqualityFn<AppState>((set, get) => ({
       edges: applyEdgeChanges(changes, get().edges),
     });
   },
+
+  addEdge(data) {
+    const id = nanoid(6);
+    const edge = { id, ...data };
+
+    set({ edges: [edge, ...get().edges] });
+  },
+
   onConnect: (connection) => {
     set({
       edges: addEdge(connection, get().edges),

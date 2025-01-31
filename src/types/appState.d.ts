@@ -1,9 +1,9 @@
 import {
   type Edge,
   type Node,
-  type OnNodesChange,
-  type OnEdgesChange,
   type OnConnect,
+  type OnEdgesChange,
+  type OnNodesChange,
 } from "@xyflow/react";
 
 export type AppNode = Node;

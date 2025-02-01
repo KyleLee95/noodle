@@ -1,8 +1,9 @@
 import { Canvas } from "@react-three/fiber";
 import useStore from "@/store/store";
-
+import GeometryReducer from "./geometry-reducer";
 const Viewport = () => {
   const nodes = useStore((state) => state.nodes);
+
   if (!nodes) {
     return null;
   }
@@ -10,10 +11,9 @@ const Viewport = () => {
   return (
     <Canvas className="h-full w-full" color="">
       <ambientLight />
-      <mesh>
-        <sphereGeometry />
-        <meshStandardMaterial color="hotpink" />
-      </mesh>
+      {nodes.map((node) => {
+        return <GeometryReducer node={node} />;
+      })}
     </Canvas>
   );
 };

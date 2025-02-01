@@ -22,28 +22,40 @@ export type RFState = {
 };
 
 const useStore = createWithEqualityFn<AppState>((set, get) => ({
-  nodes: [
-    { id: "a", data: { label: "oscillator" }, position: { x: 0, y: 0 } },
-    { id: "b", data: { label: "gain" }, position: { x: 50, y: 50 } },
-    { id: "c", data: { label: "output" }, position: { x: -50, y: 100 } },
-  ],
+  nodes: [{
+    type: "boxGeometryNode",
+    id: nanoid(),
+    data: { height: 1, width: 1, depth: 1 },
+    position: { x: 0, y: 0 },
+  }],
 
   edges: [],
 
   createNode: (parentNode: Node, position: XYPosition, nodeData: any) => {
-    console.log("createNode");
   },
   onNodesChange: (changes) => {
     set({
       nodes: applyNodeChanges(changes, get().nodes),
     });
   },
+
   onEdgesChange: (changes) => {
     set({
       edges: applyEdgeChanges(changes, get().edges),
     });
   },
-
+  updateNode(id: string, data) {
+    set({
+      nodes: get().nodes.map((node) => {
+        if (node.id === id) {
+          const updatedNode = { ...node, data: { ...node.data, ...data } };
+          console.log(updatedNode);
+          return updatedNode;
+        }
+        return node;
+      }),
+    });
+  },
   addEdge(data) {
     const id = nanoid(6);
     const edge = { id, ...data };

@@ -11,15 +11,23 @@ import {
 } from "@xyflow/react";
 import { useTheme } from "../ui/theme-provider";
 import { shallow } from "zustand/shallow";
-
 import useStore, { RFState } from "@/store/store";
+
+import BoxGeometryNode from "./nodes/geometry/box-geometry-node";
+
+const nodeTypes = {
+  boxGeometryNode: BoxGeometryNode,
+};
 
 const selector = (store: RFState) => ({
   nodes: store.nodes,
   edges: store.edges,
   onNodesChange: store.onNodesChange,
+  onNodesDelete: store.onNodesDelete,
   onEdgesChange: store.onEdgesChange,
+  onEdgesDelete: store.onEdgesDelete,
   addEdge: store.addEdge,
+  createNode: store.createNode,
 });
 
 export default function FlowCanvas() {
@@ -36,12 +44,13 @@ export default function FlowCanvas() {
   return (
     <div className="h-full w-full">
       <ReactFlow
+        nodeTypes={nodeTypes}
         colorMode={theme}
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
+        nodes={store.nodes}
+        edges={store.edges}
+        onNodesChange={store.onNodesChange}
+        onEdgesChange={store.onEdgesChange}
+        onConnect={store.onConnect}
         fitView
       >
         <Controls />

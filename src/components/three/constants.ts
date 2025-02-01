@@ -1,0 +1,1 @@
+export const BOX_GEOMETRY_NODE = "BOX_GEOMETRY_NODE";

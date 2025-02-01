@@ -11,6 +11,7 @@ import {
 } from "@xyflow/react";
 import { nanoid } from "nanoid";
 import { type AppState } from "@/types/appState";
+import { BOX_GEOMETRY_NODE } from "@/components/three/constants";
 
 export type RFState = {
   nodes: Node[];
@@ -23,7 +24,7 @@ export type RFState = {
 
 const useStore = createWithEqualityFn<AppState>((set, get) => ({
   nodes: [{
-    type: "boxGeometryNode",
+    type: BOX_GEOMETRY_NODE,
     id: nanoid(),
     data: { height: 1, width: 1, depth: 1 },
     position: { x: 0, y: 0 },
@@ -49,7 +50,6 @@ const useStore = createWithEqualityFn<AppState>((set, get) => ({
       nodes: get().nodes.map((node) => {
         if (node.id === id) {
           const updatedNode = { ...node, data: { ...node.data, ...data } };
-          console.log(updatedNode);
           return updatedNode;
         }
         return node;

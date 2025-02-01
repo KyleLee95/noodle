@@ -16,7 +16,7 @@ import useStore, { RFState } from "@/store/store";
 import BoxGeometryNode from "./nodes/geometry/box-geometry-node";
 
 const nodeTypes = {
-  boxGeometryNode: BoxGeometryNode,
+  BOX_GEOMETRY_NODE: BoxGeometryNode,
 };
 
 const selector = (store: RFState) => ({
